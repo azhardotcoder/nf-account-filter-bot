@@ -11,7 +11,7 @@ from datetime import datetime
 # Load environment variables
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-
+print(BOT_TOKEN)
 # Enable logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
